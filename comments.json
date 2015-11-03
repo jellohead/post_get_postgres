@@ -10,5 +10,9 @@
     {
         "author": "Pat",
         "text": "Hello!"
+    },
+    {
+        "author": "Tim",
+        "text": "Nothing to say"
     }
 ]

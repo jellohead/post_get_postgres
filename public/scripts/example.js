@@ -20,7 +20,7 @@ var Comment = React.createClass({
     return (
       <div className="comment">
         <h2 className="commentAuthor">
-          {this.props.author}
+          {this.props.name}
         </h2>
         <span dangerouslySetInnerHTML={this.rawMarkup()} />
       </div>
@@ -31,7 +31,8 @@ var Comment = React.createClass({
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
     $.ajax({
-      url: this.props.url,
+      //url: this.props.url,
+      url:'/d',
       dataType: 'json',
       cache: false,
       success: function(data) {
@@ -47,7 +48,8 @@ var CommentBox = React.createClass({
     var newComments = comments.concat([comment]);
     this.setState({data: newComments});
     $.ajax({
-      url: this.props.url,
+      //url: this.props.url,
+      url: '/',
       dataType: 'json',
       type: 'POST',
       data: comment,
@@ -64,14 +66,14 @@ var CommentBox = React.createClass({
   },
   componentDidMount: function() {
     this.loadCommentsFromServer();
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+    //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render: function() {
     return (
       <div className="commentBox">
         <h1>Comments</h1>
-        <CommentList data={this.state.data} />
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+        <CommentList data={this.state.data} />
       </div>
     );
   }
@@ -84,8 +86,8 @@ var CommentList = React.createClass({
         // `key` is a React-specific concept and is not mandatory for the
         // purpose of this tutorial. if you're curious, see more here:
         // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-        <Comment author={comment.author} key={index}>
-          {comment.text}
+        <Comment name={comment.name} key={index}>
+          {comment.comment}
         </Comment>
       );
     });
@@ -100,20 +102,20 @@ var CommentList = React.createClass({
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
-    var author = this.refs.author.value.trim();
-    var text = this.refs.text.value.trim();
-    if (!text || !author) {
+    var name = this.refs.name.value.trim();
+    var comment = this.refs.comment.value.trim();
+    if (!comment || !name) {
       return;
-    }
-    this.props.onCommentSubmit({author: author, text: text});
-    this.refs.author.value = '';
-    this.refs.text.value = '';
+    }comments
+    this.props.onCommentSubmit({name: name, comment: comment});
+    this.refs.name.value = '';
+    this.refs.comment.value = '';
   },
   render: function() {
     return (
       <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Your name" ref="author" />
-        <input type="text" placeholder="Say something..." ref="text" />
+        <input type="text" placeholder="Your name" ref="name" />
+        <input type="text" placeholder="Say something..." ref="comment" />
         <input type="submit" value="Post" />
       </form>
     );
@@ -121,6 +123,6 @@ var CommentForm = React.createClass({
 });
 
 ReactDOM.render(
-  <CommentBox url="/api/comments" pollInterval={2000} />,
+  <CommentBox  />,
   document.getElementById('content')
 );
