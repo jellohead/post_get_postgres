@@ -106,7 +106,7 @@ var CommentForm = React.createClass({
     var comment = this.refs.comment.value.trim();
     if (!comment || !name) {
       return;
-    }comments
+    }
     this.props.onCommentSubmit({name: name, comment: comment});
     this.refs.name.value = '';
     this.refs.comment.value = '';
