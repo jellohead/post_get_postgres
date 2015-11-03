@@ -57,7 +57,8 @@ app.post('/', function(req, res) {
     };
     if(handleError(err)) return;
     console.log(JSON.stringify(req.body.name) + ' ' + JSON.stringify(req.body.comment));
-    client.query('INSERT INTO comments (name, comment) VALUES ($1, $2)', [JSON.stringify(req.body.name), JSON.stringify(req.body.comment)], function(err, result) {
+    // client.query('INSERT INTO comments (name, comment) VALUES ($1, $2)', [JSON.stringify(req.body.name), JSON.stringify(req.body.comment)], function(err, result) {
+    client.query('INSERT INTO comments (name, comment) VALUES ($1, $2)', [(req.body.name), (req.body.comment)], function(err, result) {
       if(handleError(err)) return;
     });
   });
